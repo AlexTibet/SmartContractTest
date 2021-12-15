@@ -1,1 +1,1 @@
-# SmartContractTest
+# StarterKit
