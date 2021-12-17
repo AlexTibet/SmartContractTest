@@ -43,7 +43,8 @@
     "sequelize-typescript": "^1.1.0",
     "speakeasy": "^2.0.0",
     "typescript": "^3.9.10",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "web3": "^1.5.2"
   },
   "devDependencies": {
     "@hapi/eslint-config-hapi": "^12.3.0",

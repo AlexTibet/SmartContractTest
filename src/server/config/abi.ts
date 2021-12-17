@@ -1,4 +1,7 @@
-export const ABI_EXCHANGE_CONTRACT = [
+/* eslint-disable */
+import { AbiItem } from "web3-utils";
+
+export const CONTRACT_ABI: AbiItem[] = [
   {
     "inputs": [
       {
@@ -893,13 +896,13 @@ export const ABI_EXCHANGE_CONTRACT = [
     "stateMutability": "nonpayable",
     "type": "function"
   },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
-  }
+  // {
+  //   "stateMutability": "payable",
+  //   "type": "receive"
+  // }
 ];
 
-export const ABI_TOKENS_ERC20 = [
+export const TOKEN_ABI_ERC20: AbiItem[] = [
   {
     "inputs": [
       {

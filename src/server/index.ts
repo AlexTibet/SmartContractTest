@@ -16,6 +16,7 @@ import { pinoConfig } from './config/pino';
 import sequelize from './models';
 const HapiSwagger = require('hapi-swagger');
 const Package = require('../../package.json');
+import { init as contractListener } from './contract';
 
 swaggerOptions.info.version = Package.version;
 
@@ -71,10 +72,11 @@ const init = async (): Promise<Hapi.Server> => {
   });
 
   // database
-  sequelize;
+  // sequelize;
 
   // Запускаем сервер
   try {
+    await contractListener();
     await server.start();
     server.log('info', `Server running at: ${server.info.uri}`);
   } catch (err) {

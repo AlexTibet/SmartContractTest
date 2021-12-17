@@ -1,10 +1,11 @@
 import { Sequelize } from 'sequelize-typescript';
 import config from '../config/config';
-import { Example } from './Example';
+import { Transactions } from './Transactions';
+import { Users } from './Users';
 
 const sequelize = new Sequelize(config.dbLink, {
   dialect: 'postgres',
-  models: [Example],
+  models: [Transactions, Users],
   logging: false
 });
 

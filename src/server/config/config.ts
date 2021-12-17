@@ -1,8 +1,20 @@
 import { config } from 'dotenv';
+import * as process from 'process';
 
 config();
 
 export default {
+  contract: {
+    address: process.env.CONTRACT_ADDRESS
+  },
+  provider: {
+    id: process.env.PROVIDER_ID,
+    secret: process.env.PROVIDER_SECRET,
+    endpoints: {
+      https: process.env.PROVIDER_HTTPS_ENDPOINT,
+      wss: process.env.PROVIDER_WSS_ENDPOINTS
+    }
+  },
   dbLink: process.env.DB_LINK,
   auth: {
     jwt: {
