@@ -12,23 +12,30 @@ export class Wallets extends Model<Wallets> {
   id: string;
 
   @ForeignKey(() => Users)
-  @Column({ type: DataType.UUID })
+  @Column({
+    type: DataType.UUID,
+    unique: true,
+    allowNull: false
+  })
   userId: string;
 
   @Column({
-    type: DataType.STRING
+    type: DataType.STRING,
+    allowNull: false
   })
   token: string;
 
   @Column({
-    type: DataType.STRING
-  })
-  address: string;
-
-  @Column({
-    type: DataType.DECIMAL
+    type: DataType.DECIMAL,
+    defaultValue: 0
   })
   balance: number;
+
+  @Column({
+    type: DataType.DECIMAL,
+    defaultValue: 0
+  })
+  lockedBalance: number;
 
   @BelongsTo(() => Users)
   user: Users;

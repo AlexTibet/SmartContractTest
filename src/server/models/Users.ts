@@ -20,7 +20,9 @@ export class Users extends Model<Users> {
   id: string;
 
   @Column({
-    type: DataType.STRING
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false
   })
   address: string
 
