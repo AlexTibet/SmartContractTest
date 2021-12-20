@@ -1,10 +1,13 @@
 import { EventData } from 'web3-eth-contract';
-import { EventLogger } from './event-logger';
-import { contractWSS } from './wss';
+import { DepositLogger, WithdrawLogger } from './event-logger';
+import { TRANSACTIONS_TYPE } from '../models/Transactions';
+import { ContractStorage } from './ContractStorage';
 
-const eventListener = async (err, event: EventData): Promise<void> => {
-  const logger = new EventLogger(err, event);
-  await logger.execute();
+const depositEventListener = async (err, event: EventData): Promise<void> => {
+  await new DepositLogger(err, event).execute();
+};
+const withdrawEventListener = async (err, event: EventData): Promise<void> => {
+  await new WithdrawLogger(err, event).execute();
 };
 
 const getLastBlock = async (): Promise<number> => {
@@ -12,14 +15,12 @@ const getLastBlock = async (): Promise<number> => {
   return 9824039;
 };
 
-const test = async (data): Promise<void> => {
-  console.log(data);
-};
-
 export const init = async (): Promise<void> => {
   const options = { fromBlock: await getLastBlock() };
-  const tokenList = await contractWSS.methods['getListTokens']().call();
-  console.log(tokenList);
-  await contractWSS.events.allEvents(options, eventListener);
+
+  const contractStorage = ContractStorage.getInstance();
+  const stockExchangeContract = contractStorage.getStockExchangeContract();
+  await stockExchangeContract.events[TRANSACTIONS_TYPE.DEPOSIT](options, depositEventListener);
+  await stockExchangeContract.events[TRANSACTIONS_TYPE.WITHDRAW](options, withdrawEventListener);
 };
 

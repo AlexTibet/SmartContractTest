@@ -4,8 +4,11 @@ import * as process from 'process';
 config();
 
 export default {
-  contract: {
-    address: process.env.CONTRACT_ADDRESS
+  stockExchange: {
+    address: process.env.STOCK_EXCHANGE_CONTRACT_ADDRESS
+  },
+  tokens: {
+    address: process.env.TOKEN_CONTRACT_ADDRESS
   },
   provider: {
     id: process.env.PROVIDER_ID,

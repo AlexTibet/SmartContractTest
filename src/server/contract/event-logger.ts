@@ -1,49 +1,38 @@
 import { EventData } from 'web3-eth-contract';
-import { TRANSACTIONS_TYPE } from '../models/Transactions';
 
-export class EventLogger {
-  err: unknown
-  data: EventData
+abstract class EventLogger {
+  error: unknown;
+  event: EventData;
 
-  constructor(err, data) {
-    this.err = err;
-    this.data = data;
+  constructor(err: unknown, event: EventData) {
+    this.error = err;
+    this.event = event;
   }
 
-  async withdrawEventHandler(data: EventData): Promise<void> {
-    console.log('Withdraw EVENT');
-    console.log('\t', data.event, data.blockNumber, data['id']);
-    console.log(data);
-  }
-
-  async depositEventHandler(data: EventData): Promise<void> {
-    console.log('Deposit EVENT');
-    console.log('\t', data.event, data.blockNumber, data['id']);
-    // console.log(data);
-  }
-
-  async errorEventHandler(err): Promise<void> {
+  async errorHandler(): Promise<void> {
     console.log('ERROR EVENT');
-    console.log('\t', err);
+    console.log('\t', this.error);
   }
 
+  abstract execute(err, data: EventData): Promise<void>
+}
+
+export class DepositLogger extends EventLogger {
   async execute(): Promise<void> {
-    if (this.err) {
-      await this.errorEventHandler(this.data);
-      return;
+    if (this.error) {
+      return await this.errorHandler();
     }
-    switch (this.data.event) {
-      case TRANSACTIONS_TYPE.DEPOSIT:
-        await this.depositEventHandler(this.data);
-        break;
+    console.log('DEPOSIT EVENT');
+    console.log('\t', this.event);
+  }
+}
 
-      case TRANSACTIONS_TYPE.WITHDRAW:
-        await this.withdrawEventHandler(this.data);
-        break;
-
-      default:
-        await this.errorEventHandler(this.data);
-        break;
+export class WithdrawLogger extends EventLogger {
+  async execute(): Promise<void> {
+    if (this.error) {
+      return await this.errorHandler();
     }
+    console.log('WITHDRAW EVENT');
+    console.log('\t', this.event);
   }
 }
