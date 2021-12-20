@@ -46,14 +46,18 @@ module.exports = {
             allowNull: false,
             type: Sequelize.INTEGER
           },
+          transactionHash: {
+            allowNull: false,
+            type: Sequelize.STRING,
+            unique: true
+          },
           returnValues: {
             allowNull: false,
             type: Sequelize.JSONB
           },
           signature: {
             allowNull: false,
-            type: Sequelize.STRING,
-            unique: true
+            type: Sequelize.STRING
           },
           rawData: {
             allowNull: false,

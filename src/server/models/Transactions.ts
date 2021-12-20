@@ -19,14 +19,16 @@ export interface ITransactionReturnValues {
 }
 
 export interface ITransactionInfo {
+  type?: TRANSACTIONS_TYPE
   from: string
   to: string
-  amount: BigNumber.Instance
+  amount: BigNumber
   removed: boolean
   blockNumber: number
   blockHash: string
   logIndex: number
   transactionIndex: number
+  transactionHash: string
   returnValues: ITransactionReturnValues
   signature: string
   rawData: IRawTransactionsData
@@ -104,14 +106,19 @@ export class Transactions extends Model<Transactions> {
   transactionIndex: number;
 
   @Column({
+    type: DataType.INTEGER,
+    allowNull: false
+  })
+  transactionHash: string;
+
+  @Column({
     type: DataType.JSONB
   })
   returnValues: ITransactionReturnValues;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
-    unique: true
+    allowNull: false
   })
   signature: string;
 
