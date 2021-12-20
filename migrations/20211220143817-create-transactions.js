@@ -58,6 +58,16 @@ module.exports = {
           rawData: {
             allowNull: false,
             type: Sequelize.JSONB
+          },
+          createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE,
+            defaultValue: new Date()
+          },
+          updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE,
+            defaultValue: new Date()
           }
         });
   },

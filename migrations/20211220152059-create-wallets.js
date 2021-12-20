@@ -28,6 +28,16 @@ module.exports = {
             allowNull: false,
             type: Sequelize.DECIMAL,
             defaultValue: 0
+          },
+          createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE,
+            defaultValue: new Date()
+          },
+          updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE,
+            defaultValue: new Date()
           }
         }
     );
