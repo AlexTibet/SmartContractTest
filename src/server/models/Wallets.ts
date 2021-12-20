@@ -13,9 +13,7 @@ export class Wallets extends Model<Wallets> {
 
   @ForeignKey(() => Users)
   @Column({
-    type: DataType.UUID,
-    unique: true,
-    allowNull: false
+    type: DataType.UUID
   })
   userId: string;
 

@@ -63,12 +63,12 @@ export class Transactions extends Model<Transactions> {
   @Column({
     type: DataType.STRING
   })
-  transactionHash: string;
+  hash: string;
 
   @Column({
     type: DataType.INTEGER
   })
-  transactionIndex: number;
+  index: number;
 
   @Column({
     type: DataType.JSONB
@@ -83,5 +83,5 @@ export class Transactions extends Model<Transactions> {
   @Column({
     type: DataType.JSONB
   })
-  raw: IRawTransactionsData;
+  rawData: IRawTransactionsData;
 }
