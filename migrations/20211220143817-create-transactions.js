@@ -30,22 +30,33 @@ module.exports = {
             type: Sequelize.BOOLEAN,
             allowNull: false
           },
-          hash: {
+          blockNumber: {
+            allowNull: false,
+            type: Sequelize.INTEGER
+          },
+          blockHash: {
             allowNull: false,
             type: Sequelize.STRING
           },
-          index: {
+          logIndex: {
+            allowNull: false,
+            type: Sequelize.INTEGER
+          },
+          transactionIndex: {
             allowNull: false,
             type: Sequelize.INTEGER
           },
           returnValues: {
+            allowNull: false,
             type: Sequelize.JSONB
           },
           signature: {
             allowNull: false,
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            unique: true
           },
           rawData: {
+            allowNull: false,
             type: Sequelize.JSONB
           }
         });
