@@ -85,7 +85,7 @@ export class Transactions extends Model<Transactions> {
     type: DataType.INTEGER,
     allowNull: false
   })
-  blockNumber: string;
+  blockNumber: number;
 
   @Column({
     type: DataType.STRING,
