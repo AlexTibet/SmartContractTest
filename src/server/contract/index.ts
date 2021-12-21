@@ -1,5 +1,5 @@
 import { EventData } from 'web3-eth-contract';
-import { TRANSACTIONS_TYPE } from '../models/Transactions';
+import { TRANSACTIONS_TYPE, Transactions } from '../models/Transactions';
 import { ContractStorage } from './ContractStorage';
 import { loggers } from './logger';
 
@@ -13,8 +13,13 @@ const withdrawEventListener = async (err, event: EventData): Promise<void> => {
 };
 
 const getLastBlock = async (): Promise<number> => {
-  // TODO:
-  return 9824039;
+  const lastBlocks = await Transactions.findAll({
+    attributes: ['blockNumber'],
+    raw: true,
+    limit: 7, // number of shift blocks
+    order: [['blockNumber', 'DESC']]
+  });
+  return lastBlocks.pop().blockNumber;
 };
 
 export const init = async (): Promise<void> => {
