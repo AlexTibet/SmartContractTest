@@ -12,19 +12,19 @@ const withdrawEventListener = async (err, event: EventData): Promise<void> => {
   await new WithdrawLogger(err, event).execute();
 };
 
-const getLastBlock = async (): Promise<number> => {
+const getLastBlock = async (): Promise<number | string> => {
   const lastBlocks = await Transactions.findAll({
     attributes: ['blockNumber'],
     raw: true,
     limit: 7, // number of shift blocks
     order: [['blockNumber', 'DESC']]
   });
-  return lastBlocks.pop().blockNumber;
+  return lastBlocks.pop()?.blockNumber;
 };
 
 export const init = async (): Promise<void> => {
   const options = {
-    fromBlock: await getLastBlock()
+    fromBlock: await getLastBlock() || 'latest'
   };
 
   const contractStorage = ContractStorage.getInstance();
@@ -32,6 +32,6 @@ export const init = async (): Promise<void> => {
 
   await stockExchangeContract.events[TRANSACTIONS_TYPE.DEPOSIT](options, depositEventListener);
   await stockExchangeContract.events[TRANSACTIONS_TYPE.WITHDRAW](options, withdrawEventListener);
-  console.log('contract listen');
+  console.log(`[x] Contract events listen from ${ options.fromBlock } block`);
 };
 
