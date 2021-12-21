@@ -16,6 +16,7 @@ export class WithdrawLogger extends EventLogger {
 
       if (!trxNotFound) {
         // repeated trx
+        await t.rollback();
         return;
       }
 

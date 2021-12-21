@@ -15,6 +15,7 @@ export class DepositLogger extends EventLogger {
       const trxNotFound = await this.saveOrCreateTrx(TRANSACTIONS_TYPE.DEPOSIT, t);
 
       if (!trxNotFound) {
+        await t.rollback();
         // repeated trx
         return;
       }
