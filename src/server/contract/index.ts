@@ -12,7 +12,7 @@ const withdrawEventListener = async (err, event: EventData): Promise<void> => {
   await new WithdrawLogger(err, event).execute();
 };
 
-const getLastBlock = async (): Promise<number | string> => {
+const getLastBlock = async (): Promise<number | undefined> => {
   const lastBlocks = await Transactions.findAll({
     attributes: ['blockNumber'],
     raw: true,
