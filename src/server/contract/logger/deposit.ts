@@ -1,6 +1,6 @@
 import { EventLogger } from './base';
 import { Users } from '../../models/Users';
-import { Transactions, TRANSACTIONS_TYPE } from '../../models/Transactions';
+import { TRANSACTIONS_TYPE } from '../../models/Transactions';
 import sequelize from '../../models';
 import { Wallets } from '../../models/Wallets';
 
@@ -9,31 +9,19 @@ export class DepositLogger extends EventLogger {
     if (this.error) {
       return await this.errorHandler();
     }
-
     console.log('DEPOSIT EVENT');
-    console.log('\t', this.event);
-
-    const transactionInfo = this.getTransactionInfo();
-    console.log(transactionInfo);
 
     const t = await sequelize.transaction();
     try {
-      const [transaction, trxNotFound] = await Transactions.findOrCreate({
-        where: {
-          transactionHash: transactionInfo.transactionHash
-        },
-        defaults: {
-          ...transactionInfo,
-          type: TRANSACTIONS_TYPE.DEPOSIT
-        },
-        transaction: t
-      });
+      const trxNotFound = await this.saveOrCreateTrx(TRANSACTIONS_TYPE.DEPOSIT, t);
 
       if (!trxNotFound) {
-        console.log('FIND', transaction.transactionHash);
+        // repeated trx
         return;
       }
 
+      const transactionInfo = this.getTransactionInfo();
+      console.log(transactionInfo);
       const [user] = await Users.findOrCreate({
         where: {
           address: transactionInfo.from

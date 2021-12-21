@@ -1,6 +1,7 @@
 import { EventData } from 'web3-eth-contract';
-import { ITransactionInfo } from '../../models/Transactions';
+import { ITransactionInfo, Transactions, TRANSACTIONS_TYPE } from '../../models/Transactions';
 import BigNumber from 'bignumber.js';
+import { Transaction as SequelizeTransaction } from 'sequelize/types/lib/transaction';
 
 export abstract class EventLogger {
   error: unknown;
@@ -42,5 +43,20 @@ export abstract class EventLogger {
 
   getTransactionInfo(): ITransactionInfo {
     return this.transactionInfo;
+  }
+
+  async saveOrCreateTrx(type: TRANSACTIONS_TYPE, t: SequelizeTransaction): Promise<boolean> {
+    const [, trxNotFound] = await Transactions.findOrCreate({
+      where: {
+        transactionHash: this.transactionInfo.transactionHash
+      },
+      defaults: {
+        ...this.transactionInfo,
+        type
+      },
+      transaction: t
+    });
+
+    return trxNotFound;
   }
 }
