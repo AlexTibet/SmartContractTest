@@ -13,17 +13,17 @@ const defaultPayloadSchema = Joi.object({
 
 export const approvePayload = Joi.object({
   ...defaultPayloadSchema
-});
+}).label('approve');
 
 export const depositPayload = Joi.object({
   ...defaultPayloadSchema
-});
+}).label('deposit');
 
 export const withdrawPayload = Joi.object({
   ...defaultPayloadSchema
-});
+}).label('withdraw');
 
 export const getTokenInfoParams = Joi.object({
   tokenAddress: tokenAddressValidation,
   type: tokenInfoTypeValidation
-});
+}).label('Info about token');

@@ -1,4 +1,4 @@
-import * as handlers from '../../api/v1/example';
+import * as handlers from '../../api/v1/smart';
 import { ServerRoute } from '@hapi/hapi';
 import * as schemes from '../../schemes/smart';
 

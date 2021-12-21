@@ -27,5 +27,6 @@ export const init = async (): Promise<void> => {
 
   await stockExchangeContract.events[TRANSACTIONS_TYPE.DEPOSIT](options, depositEventListener);
   await stockExchangeContract.events[TRANSACTIONS_TYPE.WITHDRAW](options, withdrawEventListener);
+  console.log('contract listen');
 };
 
