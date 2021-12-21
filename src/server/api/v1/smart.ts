@@ -1,4 +1,5 @@
 import { output, error, ResponseData } from '../../utils';
+import { ContractStorage } from '../../contract/ContractStorage';
 
 export const approve = async (r): Promise<ResponseData> => {
   try {
@@ -20,7 +21,10 @@ export const deposit = async (r): Promise<ResponseData> => {
 
 export const getTokens = async (r): Promise<ResponseData> => {
   try {
-    return output({ message: 'getTokens' });
+    const contractStorage = ContractStorage.getInstance();
+    const tokenList = await contractStorage.getTokenList();
+
+    return output({ tokenList });
   } catch (err) {
     console.log(err);
     return error(500000, 'Internal Server Error', {});
@@ -29,7 +33,12 @@ export const getTokens = async (r): Promise<ResponseData> => {
 
 export const getTokenInfo = async (r): Promise<ResponseData> => {
   try {
-    return output({ message: 'getTokenInfo' });
+    const { tokenAddress, type } = r.params;
+    const contractStorage = ContractStorage.getInstance();
+    const contract = contractStorage.getTokenContract(tokenAddress);
+    const result = await contract.methods[type]().call();
+
+    return output({ result });
   } catch (err) {
     console.log(err);
     return error(500000, 'Internal Server Error', {});

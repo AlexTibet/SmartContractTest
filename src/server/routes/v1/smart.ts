@@ -47,7 +47,7 @@ export default [
   },
   {
     method: 'GET',
-    path: '/v1/smart/info/{type}/{token}',
+    path: '/v1/smart/info/{type}/{tokenAddress}',
     handler: handlers.getTokenInfo,
     options: {
       id: 'v1.smart.info',

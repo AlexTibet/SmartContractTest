@@ -13,7 +13,8 @@ export class ContractStorage {
   provider: WebsocketProvider;
   web3: any;
   stockExchangeContract: Contract;
-  tokenContract: Contract;
+  tokenContracts: Map<string, Contract>;
+  tokenList: string[]
 
   static getInstance: () => ContractStorage;
 
@@ -22,14 +23,14 @@ export class ContractStorage {
   }
 
   init(): ContractStorage {
-    if (this.tokenContract && this.stockExchangeContract) {
+    if (this.stockExchangeContract) {
       return this;
     }
 
     try {
       this.web3 = new web3(this.provider);
       this.stockExchangeContract = new this.web3.eth.Contract(CONTRACT_ABI, stockExchange.address);
-      this.tokenContract = new this.web3.eth.Contract(TOKEN_ABI_ERC20, tokens.address);
+      this.tokenContracts = new Map<string, Contract>();
     } catch (err) {
       console.log(err);
 
@@ -44,8 +45,21 @@ export class ContractStorage {
     return this.stockExchangeContract;
   }
 
-  getTokenContract(): Contract {
-    return this.tokenContract;
+  getTokenContract(address: string): Contract {
+    let contract = this.tokenContracts.get(address);
+
+    if (!contract) {
+      contract = new this.web3.eth.Contract(TOKEN_ABI_ERC20, address);
+      this.tokenContracts.set(address, contract);
+    }
+    return contract;
+  }
+
+  async getTokenList(): Promise<string[]> {
+    if (!this.tokenList) {
+      this.tokenList = await this.stockExchangeContract.methods['getListTokens']().call();
+    }
+    return this.tokenList;
   }
 }
 

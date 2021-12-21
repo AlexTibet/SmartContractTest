@@ -72,7 +72,7 @@ const init = async (): Promise<Hapi.Server> => {
   });
 
   // database
-  // sequelize;
+  sequelize;
 
   // Запускаем сервер
   try {
