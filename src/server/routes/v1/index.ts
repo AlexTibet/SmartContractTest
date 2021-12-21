@@ -1,3 +1,3 @@
-import example from './example';
+import smart from './smart';
 
-export default [...example];
+export default [...smart];
