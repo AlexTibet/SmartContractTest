@@ -42,7 +42,7 @@ export default [
       auth: false,
       tags: ['api', 'v1', 'smart'],
       description: 'For get token list for smart contract',
-      notes: 'For get token list for smart contract',
+      notes: 'For get token list for smart contract'
     }
   },
   {

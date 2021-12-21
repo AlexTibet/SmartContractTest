@@ -5,11 +5,11 @@ const amountValidation = Joi.number().required();
 const userAddressValidation = Joi.string().required();
 const tokenInfoTypeValidation = Joi.string().required();
 
-const defaultPayloadSchema = Joi.object({
+const defaultPayloadSchema = {
   tokenAddress: tokenAddressValidation,
   amount: amountValidation,
   userAddress: userAddressValidation
-});
+};
 
 export const approvePayload = Joi.object({
   ...defaultPayloadSchema
