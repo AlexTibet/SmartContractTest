@@ -9,7 +9,6 @@ export class DepositLogger extends EventLogger {
     if (this.error) {
       return await this.errorHandler();
     }
-    console.log('DEPOSIT EVENT');
 
     const t = await sequelize.transaction();
     try {
@@ -21,7 +20,7 @@ export class DepositLogger extends EventLogger {
       }
 
       const transactionInfo = this.getTransactionInfo();
-      console.log(transactionInfo);
+
       const [user] = await Users.findOrCreate({
         where: {
           address: transactionInfo.from

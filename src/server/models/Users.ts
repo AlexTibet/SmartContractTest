@@ -27,5 +27,5 @@ export class Users extends Model<Users> {
   address: string
 
   @HasMany(() => Wallets)
-  wallet: Wallets;
+  wallets: Wallets;
 }
