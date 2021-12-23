@@ -1,7 +1,7 @@
 import { CONTRACT_ABI, TOKEN_ABI_ERC20 } from '../config/abi';
 import config from '../config/config';
 import { Contract } from 'web3-eth-contract';
-import { WebsocketProvider } from 'web3-core';
+import { Account, WebsocketProvider } from 'web3-core';
 
 const { stockExchange, tokens, provider } = config;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -15,6 +15,7 @@ export class ContractStorage {
   stockExchangeContract: Contract;
   tokenContracts: Map<string, Contract>;
   tokenList: string[]
+  account: Account
 
   static getInstance: () => ContractStorage;
 
@@ -60,6 +61,18 @@ export class ContractStorage {
       this.tokenList = await this.stockExchangeContract.methods['getListTokens']().call();
     }
     return this.tokenList;
+  }
+
+  async getGasPrice(): Promise<number> {
+    return await this.web3.eth.getGasPrice();
+  }
+
+  addAccount(): Account {
+    if (!this.account) {
+      this.account = this.web3.eth.accounts.privateKeyToAccount(config.stockExchange.defaultPrivateKey);
+      this.web3.eth.accounts.wallet.add(this.account);
+    }
+    return this.account;
   }
 }
 
