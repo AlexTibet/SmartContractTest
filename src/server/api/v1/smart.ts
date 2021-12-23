@@ -1,9 +1,13 @@
 import { output, error, ResponseData } from '../../utils';
-import { ContractStorage } from '../../contract/ContractStorage';
+import { ContractAdapter } from '../../contract/adapter';
 
 export const approve = async (r): Promise<ResponseData> => {
   try {
-    return output({ message: 'approve' });
+    const { tokenAddress, amount, userAddress } = r.payload;
+    const contract = new ContractAdapter();
+    const result = await contract.approve(tokenAddress, amount, userAddress);
+
+    return output({ result });
   } catch (err) {
     console.log(err);
     return error(500000, 'Internal Server Error', {});
@@ -12,7 +16,11 @@ export const approve = async (r): Promise<ResponseData> => {
 
 export const deposit = async (r): Promise<ResponseData> => {
   try {
-    return output({ message: 'deposit' });
+    const { tokenAddress, amount, userAddress } = r.payload;
+    const contract = new ContractAdapter();
+    const result = await contract.deposit(tokenAddress, amount, userAddress);
+
+    return output({ result });
   } catch (err) {
     console.log(err);
     return error(500000, 'Internal Server Error', {});
@@ -21,8 +29,8 @@ export const deposit = async (r): Promise<ResponseData> => {
 
 export const getTokens = async (r): Promise<ResponseData> => {
   try {
-    const contractStorage = ContractStorage.getInstance();
-    const tokenList = await contractStorage.getTokenList();
+    const contract = new ContractAdapter();
+    const tokenList = await contract.getTokens();
 
     return output({ tokenList });
   } catch (err) {
@@ -33,10 +41,9 @@ export const getTokens = async (r): Promise<ResponseData> => {
 
 export const getTokenInfo = async (r): Promise<ResponseData> => {
   try {
-    const { tokenAddress, type } = r.params;
-    const contractStorage = ContractStorage.getInstance();
-    const contract = contractStorage.getTokenContract(tokenAddress);
-    const result = await contract.methods[type]().call();
+    const { tokenAddress, method } = r.params;
+    const contract = new ContractAdapter();
+    const result = await contract.getTokenInfo(tokenAddress, method);
 
     return output({ result });
   } catch (err) {
@@ -47,7 +54,11 @@ export const getTokenInfo = async (r): Promise<ResponseData> => {
 
 export const withdraw = async (r): Promise<ResponseData> => {
   try {
-    return output({ message: 'withdraw' });
+    const { tokenAddress, amount, userAddress } = r.payload;
+    const contract = new ContractAdapter();
+    const result = await contract.withdraw(tokenAddress, amount, userAddress);
+
+    return output({ result });
   } catch (err) {
     console.log(err);
     return error(500000, 'Internal Server Error', {});

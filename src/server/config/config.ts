@@ -5,7 +5,8 @@ config();
 
 export default {
   stockExchange: {
-    address: process.env.STOCK_EXCHANGE_CONTRACT_ADDRESS
+    address: process.env.STOCK_EXCHANGE_CONTRACT_ADDRESS,
+    defaultPrivateKey: process.env.DEFAULT_PRIVATE_KEY
   },
   tokens: {
     address: process.env.TOKEN_CONTRACT_ADDRESS

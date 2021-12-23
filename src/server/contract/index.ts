@@ -1,6 +1,6 @@
 import { EventData } from 'web3-eth-contract';
 import { TRANSACTIONS_TYPE, Transactions } from '../models/Transactions';
-import { ContractStorage } from './ContractStorage';
+import { ContractStorage } from './storage';
 import { loggers } from './logger';
 
 const { DepositLogger, WithdrawLogger } = loggers;
