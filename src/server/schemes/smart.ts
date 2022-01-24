@@ -1,10 +1,10 @@
 import * as Joi from 'joi';
-import { TokenInfoMethods, ContractAdapter } from '../contract/adapter';
+import { TOKEN_INFO_METHODS } from '../contract/adapter';
 
 const tokenAddressValidation = Joi.string().required();
 const amountValidation = Joi.number().unsafe().positive().required();
 const userAddressValidation = Joi.string().regex(/^(0x)?[0-9a-fA-F]{40}$/).required();
-const tokenInfoTypeValidation = Joi.string().valid(...Object.keys(TokenInfoMethods)).required();
+const tokenInfoTypeValidation = Joi.string().valid(...Object.keys(TOKEN_INFO_METHODS).map((name) => TOKEN_INFO_METHODS[name])).required();
 
 const defaultPayloadSchema = {
   tokenAddress: tokenAddressValidation,

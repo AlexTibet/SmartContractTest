@@ -3,10 +3,8 @@ import { ContractStorage } from './storage';
 import { BigNumber } from 'bignumber.js';
 import { Account } from 'web3-core';
 import config from '../config/config';
-import {error} from "../utils";
-import {Errors} from "../utils/errors";
 
-export enum TokenInfoMethods {
+export enum TOKEN_INFO_METHODS {
   'name',
   'decimals',
   'symbol',
@@ -24,7 +22,7 @@ export class ContractAdapter {
     this.account = this.contractStorage.addAccount();
   }
 
-  private async send(method: string, args?: Array<any>): Promise<undefined> {
+  private async send(method: string, args?: Array<string | BigNumber>): Promise<undefined> {
     const gasPrice = await this.contractStorage.getGasPrice();
     const gasEstimate = await this.contract.methods[method](...args).estimateGas({
       from: this.account.address
@@ -47,7 +45,7 @@ export class ContractAdapter {
     return availableTokens.includes(token);
   }
 
-  async getTokenInfo(tokenAddress: string, method: keyof typeof TokenInfoMethods): Promise<undefined> {
+  async getTokenInfo(tokenAddress: string, method: keyof typeof TOKEN_INFO_METHODS): Promise<undefined> {
     this.contract = this.contractStorage.getTokenContract(tokenAddress);
     return await this.contract.methods[method]().call();
   }
